@@ -4,6 +4,7 @@ Agent Town aims to be an open-source web demo inspired by the [Generative Agents
 ### Credits
 
 Artwork:
+* Sample art from the [Grid Engine plugin](https://github.com/Annoraaq/grid-engine)
 * [Tiny Characters Set by Fleurman](https://opengameart.org/content/tiny-characters-set)
 * [Tiny 16 Basic by Lanea Zimmerman](https://opengameart.org/content/tiny-16-basic)
 
