@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "grid-engine": "^2.27.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
