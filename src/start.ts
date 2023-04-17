@@ -41,14 +41,21 @@ export class GameScene extends Phaser.Scene {
     }
 
     public update() {
-        const cursors = this.input.keyboard.createCursorKeys();
-        if (cursors.left.isDown) {
+        const arrowCursors = this.input.keyboard.createCursorKeys();
+        const wasdCursors = this.input.keyboard.addKeys(
+            {
+                up: Phaser.Input.Keyboard.KeyCodes.W,
+                down: Phaser.Input.Keyboard.KeyCodes.S,
+                left: Phaser.Input.Keyboard.KeyCodes.A,
+                right: Phaser.Input.Keyboard.KeyCodes.D
+            }) as Phaser.Types.Input.Keyboard.CursorKeys;
+        if (arrowCursors.left.isDown || wasdCursors.left.isDown) {
             this.gridEngine.move("player", Direction.LEFT);
-        } else if (cursors.right.isDown) {
+        } else if (arrowCursors.right.isDown || wasdCursors.right.isDown) {
             this.gridEngine.move("player", Direction.RIGHT);
-        } else if (cursors.up.isDown) {
+        } else if (arrowCursors.up.isDown || wasdCursors.up.isDown) {
             this.gridEngine.move("player", Direction.UP);
-        } else if (cursors.down.isDown) {
+        } else if (arrowCursors.down.isDown || wasdCursors.down.isDown) {
             this.gridEngine.move("player", Direction.DOWN);
         }
     }
