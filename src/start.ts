@@ -1,6 +1,8 @@
 import { Direction, GridEngine } from "grid-engine";
 import * as Phaser from "phaser";
 
+import Agent from "./agent";
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
     visible: false,
@@ -9,6 +11,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
     private gridEngine!: GridEngine;
+    private tilemap!: Phaser.Tilemaps.Tilemap;
+    private agent!: Agent;
 
     constructor() {
         super(sceneConfig);
@@ -17,6 +21,8 @@ export class GameScene extends Phaser.Scene {
     create() {
         const cloudCityTilemap = this.make.tilemap({ key: "cloud-city-map" });
         cloudCityTilemap.addTilesetImage("cloud_tileset", "tiles");
+        this.tilemap = cloudCityTilemap;
+
         for (let i = 0; i < cloudCityTilemap.layers.length; i++) {
             const layer = cloudCityTilemap.createLayer(i, "cloud_tileset", 0, 0);
             layer.scale = 3;
@@ -38,6 +44,34 @@ export class GameScene extends Phaser.Scene {
         };
 
         this.gridEngine.create(cloudCityTilemap, gridEngineConfig);
+
+        this.agent = new Agent();
+
+        this.executeNextMove();
+    }
+
+    async executeNextMove() {
+        if (!(window as any).ai) {
+            alert("window.ai not found. Please install at https://windowai.io/");
+            return;
+        }
+        
+        try {
+            const move = await this.agent.getNextMove();
+            if (move == 'up') {
+                this.gridEngine.move("player", Direction.UP);
+            } else if (move == 'down') {
+                this.gridEngine.move("player", Direction.DOWN);
+            } else if (move == 'left') {
+                this.gridEngine.move("player", Direction.LEFT);
+            } else if (move == 'right') {
+                this.gridEngine.move("player", Direction.RIGHT);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        setTimeout(this.executeNextMove.bind(this), 1000);
     }
 
     public update() {
